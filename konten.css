@@ -1,0 +1,535 @@
+/* ===== konten.css =====
+   Gaya untuk isi halaman (bagian di dalam <main class="home">) dan logo di sidebar.
+   Warna memakai variabel dari dashboard.css, contoh: var(--primary-color).
+   Dibuat bertahap: setiap halaman baru menambah gayanya di bawah. */
+
+
+/* 1. Logo horizontal di sidebar, dengan tulisan "Kas Kelas IF-1B" di bawahnya */
+.sidebar header .image-text {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.header-text .profession {
+    margin-top: 0;
+}
+
+.sidebar .image-text img {
+    height: 28px;
+    width: auto;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    object-fit: contain;
+}
+
+/* Saat sidebar diciutkan, hanya ikon dompet di sisi kiri logo yang terlihat */
+.sidebar.close .image-text img {
+    width: 40px;
+    object-fit: cover;
+    object-position: left center;
+}
+
+
+/* 2. Judul halaman */
+.home h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.sub {
+    margin: 2px 0 20px;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+
+/* 3. Tata letak: satu baris berisi beberapa kotak berdampingan */
+.baris {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+
+/* 4. Tiga kartu ringkasan (saldo, pemasukan, pengeluaran) */
+.kartu {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-radius: 14px;
+}
+
+.kartu small {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.kartu b {
+    display: block;
+    margin: 6px 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.kartu .keterangan {
+    font-size: 12px;
+}
+
+.kartu-saldo  { background: #2F9E5E; color: #fff; }
+.kartu-masuk  { background: #DCEBFB; color: var(--text-color); }
+.kartu-keluar { background: #FDE6D8; color: var(--text-color); }
+
+/* Lingkaran ikon di sisi kanan kartu */
+.ikon-kartu {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 22px;
+    color: #fff;
+}
+
+.kartu-saldo .ikon-kartu  { background: rgba(255, 255, 255, 0.25); }
+.kartu-masuk .ikon-kartu  { background: #3B82F6; }
+.kartu-keluar .ikon-kartu { background: #F08A4B; }
+
+
+/* 5. Kotak putih berisi grafik dan status iuran */
+.panel {
+    flex: 1;
+    min-width: 280px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+}
+
+.panel-lebar {
+    flex: 2;
+}
+
+.judul-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.judul-panel b {
+    font-size: 16px;
+}
+
+.judul-panel small {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+
+/* 6. Grafik batang pemasukan vs pengeluaran */
+.legenda {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.titik {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 4px 0 10px;
+    border-radius: 50%;
+}
+
+.titik-masuk  { background: #3B82F6; }
+.titik-keluar { background: #F08A4B; }
+
+.grafik {
+    display: flex;
+    gap: 16px;
+    height: 200px;
+    border-bottom: 1px solid var(--line);
+}
+
+.kolom {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.pasang {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 160px;
+}
+
+.batang {
+    width: 14px;
+    border-radius: 4px 4px 0 0;
+}
+
+.batang-masuk  { background: #3B82F6; }
+.batang-keluar { background: #F08A4B; }
+
+.kolom span {
+    margin: 8px 0;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+
+/* 7. Status iuran: batang progres + daftar yang belum bayar */
+.progres {
+    height: 8px;
+    margin: 6px 0 16px;
+    background: #FBE4E4;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progres span {
+    display: block;
+    height: 100%;
+    background: #2F9E5E;
+}
+
+.baris-anggota {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.baris-anggota .nama {
+    flex: 1;
+}
+
+.avatar-kecil {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #60A5FA;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* 8. Label kecil (Pemasukan, Pengeluaran, Belum Bayar) */
+.lbl {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.lbl-hijau { background: #E6F6ED; color: #1E9E5A; }
+.lbl-merah { background: #FDEAEA; color: var(--danger); }
+
+
+/* 9. Judul bagian + tombol (Ringkasan Transaksi Terbaru) */
+.judul-bagian {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.judul-bagian h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.tombol {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 38px;
+    padding: 0 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tombol-utama { background: var(--primary-color); color: #fff; }
+.tombol-tepi  { background: #fff; color: var(--text-color); border-color: var(--line); }
+
+
+/* 10. Pilihan filter di atas tabel */
+.filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.filter select {
+    height: 38px;
+    padding: 0 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+
+/* 11. Tabel */
+.tabel-bungkus {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.home table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+}
+
+.home th {
+    padding: 14px 18px;
+    background: var(--primary-color);
+    color: #fff;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.home td {
+    padding: 12px 18px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+}
+
+.home tbody tr:nth-child(even) {
+    background: #F9FAFB;
+}
+
+.kecil      { display: block; font-size: 12px; color: var(--text-muted); }
+.teks-hijau { color: #1E9E5A; font-weight: 600; }
+.teks-merah { color: var(--danger); font-weight: 600; }
+
+
+/* ===== Bagian di bawah ini untuk halaman Data Transaksi ===== */
+
+/* 12. Tab Semua / Pemasukan / Pengeluaran */
+.tab-bar {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--sidebar-color);
+    border-radius: 10px;
+}
+
+.tab {
+    padding: 7px 16px;
+    border: none;
+    border-radius: 8px;
+    background: none;
+    font-size: 14px;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.tab.aktif {
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.jumlah {
+    margin-left: 6px;
+    padding: 0 7px;
+    border-radius: 10px;
+    background: var(--primary-color-light);
+    font-size: 11px;
+}
+
+
+/* 13. Filter tanggal: ada tulisan kecil (label) di atas setiap kotak */
+.filter {
+    align-items: flex-end;
+}
+
+.filter label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.filter input[type="date"] {
+    height: 38px;
+    padding: 0 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+
+/* 14. Tombol ikon di kolom Aksi (ubah dan hapus) */
+.aksi {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.ikon-aksi {
+    border: none;
+    background: none;
+    font-size: 20px;
+    color: var(--active-text);
+    cursor: pointer;
+}
+
+.ikon-aksi.hapus {
+    color: var(--danger);
+}
+
+
+/* 15. Pop-up form (gayanya sama dengan pop-up Tambah Anggota di data-anggota.css) */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(17, 24, 39, 0.5);
+    z-index: 1000;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal {
+    width: 100%;
+    max-width: 540px;
+    max-height: 100%;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: #F3F6FB;
+    border-bottom: 1px solid var(--line);
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.modal-close {
+    display: grid;
+    place-items: center;
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px 24px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--active-text);
+    box-shadow: 0 0 0 3px var(--primary-color-light);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.pesan-error {
+    min-height: 16px;
+    font-size: 12px;
+    color: var(--danger);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--line);
+}
+
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-batal  { background: #EEF2F7; color: var(--text-color); }
+.btn-simpan { background: var(--primary-color); color: #fff; }
+
+/* Tombol kecil "Kelola Jenis Iuran" di bawah pilihan jenis iuran */
+.btn-kecil {
+    margin-top: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+}

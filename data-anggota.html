@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payclass</title>
+    <!-- css -->
+    <link rel="stylesheet" href="dashboard.css">
+    <!-- boxicon css -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="data-anggota.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo-payclass.png" alt="Logo PayClass">
+                </span>
+                <div class="text header-text">
+                    <span class="profession">Kas Kelas IF-1B</span>
+                </div>
+            </div>
+
+            <i class="bx bx-chevron-right toggle"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <p class="menu-label">MENU</p>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="dashboard.html">
+                            <i class="bx bx-home-alt icon"></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <p class="menu-label">DATA UTAMA</p>
+                <ul class="menu-links">
+                    <!-- class "active" dipindah ke sini karena kita sedang di halaman Data Anggota -->
+                    <li class="nav-link active">
+                        <a href="data-anggota.html">
+                            <i class="bx bx-group icon"></i>
+                            <span class="text nav-text">Data Anggota</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class="bx bx-transfer icon"></i>
+                            <span class="text nav-text">Data Transaksi</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="menu-links menu-links-last">
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class="bx bx-bar-chart-alt-2 icon"></i>
+                            <span class="text nav-text">Laporan</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <ul>
+                    <li class="logout">
+                        <a href="#">
+                            <i class="bx bx-log-out icon"></i>
+                            <span class="text nav-text">Keluar</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="user-profile">
+                    <div class="avatar">C</div>
+                    <div class="text user-info">
+                        <span class="user-name">Charisa</span>
+                        <span class="user-role">Bendahara</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- bilah atas -->
+    <header class="topbar">
+        <div class="search-pill">
+            <i class="bx bx-search"></i>
+            <input type="search" placeholder="Cari anggota atau transaksi...">
+        </div>
+        <div class="user-pill">
+            <span>Charisa</span>
+            <i class="bx bx-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- isi halaman -->
+    <main class="home">
+
+        <!-- Baris atas: judul kiri, search + tombol kanan -->
+        <div class="page-header">
+            <div class="page-title">
+                <h2>Daftar Anggota Kelas</h2>
+                <h4><span id="jumlah-anggota">1</span> mahasiswa terdaftar</h4>
+            </div>
+
+            <div class="page-actions">
+                <div class="search-main">
+                    <i class="bx bx-search"></i>
+                    <input type="search" placeholder="Cari NIM atau nama...">
+                </div>
+                <button type="button" class="btn-tambah" id="btn-buka-modal">
+                    <i class="bx bx-plus"></i> Tambah Anggota
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabel -->
+        <div class="table-wrap">
+            <table class="tabel-anggota">
+                <thead>
+                    <tr>
+                        <th>NIM</th>
+                        <th>Nama Lengkap</th>
+                        <th>Kelas</th>
+                        <th>Jabatan</th>
+                        <th class="col-aksi">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="isi-tabel">
+                    <tr>
+                        <td class="td-nim">3312601044</td>
+                        <td>
+                            <div class="nama-cell">
+                                <span class="avatar-kecil">AR</span>
+                                <span class="td-nama">Ariel</span>
+                            </div>
+                        </td>
+                        <td class="td-kelas">IF-1B</td>
+                        <td class="td-jabatan">Ketua Kelas</td>
+                        <td class="col-aksi">
+                            <div class="aksi-btn">
+                                <a href="#" title="Edit"><i class="bx bx-pencil"></i></a>
+                                <a href="#" title="Reset"><i class="bx bx-key"></i></a>
+                                <a href="#" title="Hapus" class="hapus"><i class="bx bx-trash"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- Modal Tambah Anggota (letaknya setelah </main>) -->
+    <div class="modal-overlay" id="modal-anggota">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="judul-modal">
+
+            <div class="modal-header">
+                <h3 id="judul-modal">Tambah Data Anggota</h3>
+                <button type="button" class="modal-close" id="btn-tutup-modal" aria-label="Tutup">
+                    <i class="bx bx-x"></i>
+                </button>
+            </div>
+
+            <form id="form-anggota">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="nim">NIM (Nomor Induk Mahasiswa)</label>
+                        <input type="text" id="nim" name="nim" placeholder="cth. 3312601044"
+                               inputmode="numeric" maxlength="10" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" id="nama" name="nama" placeholder="Nama sesuai KTM" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="kelas">Kelas</label>
+                        <input type="text" id="kelas" name="kelas" value="IF-1B" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jabatan">Jabatan</label>
+                        <select id="jabatan" name="jabatan">
+                            <option value="Anggota" selected>Anggota</option>
+                            <option value="Ketua Kelas">Ketua Kelas</option>
+                            <option value="Sekretaris">Sekretaris</option>
+                            <option value="Bendahara">Bendahara</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-batal" id="btn-batal">Batal</button>
+                    <button type="submit" class="btn btn-simpan">Simpan Data</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+    <script src="data-anggota.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda - Payclass</title>
+    <!-- css -->
+    <link rel="stylesheet" href="dashboard.css">
+    <!-- boxicon css -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- gaya isi halaman: kartu, grafik, tabel -->
+    <link rel="stylesheet" href="konten.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo-payclass.png" alt="Logo PayClass">
+                </span>
+                <div class="text header-text">
+                    <span class="profession">Kas Kelas IF-1B</span>
+                </div>
+            </div>
+ 
+            <i class="bx bx-chevron-right toggle"></i>
+        </header>
+ 
+        <div class="menu-bar">
+            <div class="menu">
+ 
+                <p class="menu-label">MENU</p>
+                <ul class="menu-links">
+                    <li class="nav-link active">
+                        <a href="dashboard.html">
+                            <i class="bx bx-home-alt icon"></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                </ul>
+ 
+                <p class="menu-label">DATA UTAMA</p>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="data-anggota.html">
+                            <i class="bx bx-group icon"></i>
+                            <span class="text nav-text">Data Anggota</span>
+                        </a>
+                    </li>
+ 
+                    <li class="nav-link">
+                        <a href="data-transaksi.html">
+                            <i class="bx bx-transfer icon"></i>
+                            <span class="text nav-text">Data Transaksi</span>
+                        </a>
+                    </li>
+                </ul>
+ 
+                <ul class="menu-links menu-links-last">
+                    <li class="nav-link">
+                        <a href="laporan.html">
+                            <i class="bx bx-bar-chart-alt-2 icon"></i>
+                            <span class="text nav-text">Laporan</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+ 
+            <div class="bottom-content">
+                <ul>
+                    <li class="logout">
+                        <a href="login.html">
+                            <i class="bx bx-log-out icon"></i>
+                            <span class="text nav-text">Keluar</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="user-profile">
+                    <div class="avatar">C</div>
+                    <div class="text user-info">
+                        <span class="user-name">Charisa</span>
+                        <span class="user-role">Bendahara</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+ 
+    <!-- bilah atas -->
+    <header class="topbar">
+        <div class="search-pill">
+            <i class="bx bx-search"></i>
+            <input type="search" id="cari" placeholder="Cari anggota atau transaksi...">
+        </div>
+        <div class="user-pill">
+            <span>Charisa</span>
+            <i class="bx bx-chevron-down"></i>
+        </div>
+    </header>
+ 
+    <!-- isi halaman -->
+    <main class="home">
+ 
+        <h1>Beranda</h1>
+        <h4 class="sub">Ringkasan kas kelas IF-1B</h4>
+ 
+        <!-- ===== Tiga kartu ringkasan (FR-06) ===== -->
+        <div class="baris">
+            <div class="kartu kartu-saldo">
+                <div>
+                    <small>Saldo kas saat ini</small>
+                    <b id="saldo-kas"></b>
+                    <p class="keterangan">Diperbarui otomatis</p>
+                </div>
+                <i class="bx bx-wallet ikon-kartu"></i>
+            </div>
+ 
+            <div class="kartu kartu-masuk">
+                <div>
+                    <small>Total pemasukan</small>
+                    <b id="total-pemasukan"></b>
+                    <p class="keterangan" id="ket-pemasukan"></p>
+                </div>
+                <i class="bx bx-up-arrow-alt ikon-kartu"></i>
+            </div>
+ 
+            <div class="kartu kartu-keluar">
+                <div>
+                    <small>Total pengeluaran</small>
+                    <b id="total-pengeluaran"></b>
+                    <p class="keterangan" id="ket-pengeluaran"></p>
+                </div>
+                <i class="bx bx-down-arrow-alt ikon-kartu"></i>
+            </div>
+        </div>
+ 
+        <div class="baris">
+ 
+            <!-- ===== Grafik pemasukan vs pengeluaran ===== -->
+            <div class="panel panel-lebar">
+                <div class="judul-panel">
+                    <div>
+                        <b>Pemasukan vs Pengeluaran</b>
+                        <small id="subjudul-grafik"></small>
+                    </div>
+                    <div class="legenda">
+                        <span class="titik titik-masuk"></span>Pemasukan
+                        <span class="titik titik-keluar"></span>Pengeluaran
+                    </div>
+                </div>
+                <div class="grafik" id="grafik"></div>
+            </div>
+ 
+            <!-- ===== Status iuran bulan berjalan ===== -->
+            <div class="panel">
+                <div class="judul-panel">
+                    <div>
+                        <b>Status Iuran Oktober</b>
+                        <small id="teks-lunas"></small>
+                    </div>
+                </div>
+                <div class="progres"><span id="progres"></span></div>
+                <div id="daftar-belum"></div>
+            </div>
+ 
+        </div>
+ 
+        <!-- ===== Ringkasan transaksi terbaru + tombol catat (FR-03, FR-04) ===== -->
+        <div class="judul-bagian">
+            <div>
+                <h2>Ringkasan Transaksi Terbaru</h2>
+                <h4 class="sub">Catatan pemasukan dan pengeluaran kas kelas</h4>
+            </div>
+            <div>
+                <a class="tombol tombol-utama" href="data-transaksi.html?aksi=masuk"><i class="bx bx-plus"></i> Catat Pemasukan</a>
+                <a class="tombol tombol-tepi" href="data-transaksi.html?aksi=keluar"><i class="bx bx-plus"></i> Catat Pengeluaran</a>
+            </div>
+        </div>
+ 
+        <!-- Filter periode dan anggota -->
+        <div class="filter">
+            <select id="filter-periode"></select>
+            <select id="filter-anggota"></select>
+        </div>
+ 
+        <!-- Tabel transaksi -->
+        <div class="tabel-bungkus">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Jenis</th>
+                        <th>Nama Anggota</th>
+                        <th>Keterangan</th>
+                        <th>Nominal</th>
+                    </tr>
+                </thead>
+                <tbody id="isi-transaksi"></tbody>
+            </table>
+        </div>
+ 
+    </main>
+ 
+    <script src="dashboard.js"></script>
+    <script src="data-kas.js"></script>
+    <script src="dashboard-isi.js"></script>
+ 
+</body>
+</html>
+ 
