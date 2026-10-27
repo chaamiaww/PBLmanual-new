@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <!-- gaya isi halaman: kartu, grafik, tabel -->
     <link rel="stylesheet" href="konten.css">
 </head>
+
 <body>
     <nav class="sidebar">
         <header>
@@ -22,13 +24,13 @@
                     <span class="profession">Kas Kelas IF-1B</span>
                 </div>
             </div>
- 
+
             <i class="bx bx-chevron-right toggle"></i>
         </header>
- 
+
         <div class="menu-bar">
             <div class="menu">
- 
+
                 <p class="menu-label">MENU</p>
                 <ul class="menu-links">
                     <li class="nav-link active">
@@ -38,7 +40,7 @@
                         </a>
                     </li>
                 </ul>
- 
+
                 <p class="menu-label">DATA UTAMA</p>
                 <ul class="menu-links">
                     <li class="nav-link">
@@ -47,7 +49,7 @@
                             <span class="text nav-text">Data Anggota</span>
                         </a>
                     </li>
- 
+
                     <li class="nav-link">
                         <a href="data-transaksi.html">
                             <i class="bx bx-transfer icon"></i>
@@ -55,7 +57,7 @@
                         </a>
                     </li>
                 </ul>
- 
+
                 <ul class="menu-links menu-links-last">
                     <li class="nav-link">
                         <a href="laporan.html">
@@ -65,7 +67,7 @@
                     </li>
                 </ul>
             </div>
- 
+
             <div class="bottom-content">
                 <ul>
                     <li class="logout">
@@ -85,7 +87,7 @@
             </div>
         </div>
     </nav>
- 
+
     <!-- bilah atas -->
     <header class="topbar">
         <div class="search-pill">
@@ -97,13 +99,13 @@
             <i class="bx bx-chevron-down"></i>
         </div>
     </header>
- 
+
     <!-- isi halaman -->
     <main class="home">
- 
+
         <h1>Beranda</h1>
         <h4 class="sub">Ringkasan kas kelas IF-1B</h4>
- 
+
         <!-- ===== Tiga kartu ringkasan (FR-06) ===== -->
         <div class="baris">
             <div class="kartu kartu-saldo">
@@ -114,7 +116,7 @@
                 </div>
                 <i class="bx bx-wallet ikon-kartu"></i>
             </div>
- 
+
             <div class="kartu kartu-masuk">
                 <div>
                     <small>Total pemasukan</small>
@@ -123,7 +125,7 @@
                 </div>
                 <i class="bx bx-up-arrow-alt ikon-kartu"></i>
             </div>
- 
+
             <div class="kartu kartu-keluar">
                 <div>
                     <small>Total pengeluaran</small>
@@ -133,9 +135,9 @@
                 <i class="bx bx-down-arrow-alt ikon-kartu"></i>
             </div>
         </div>
- 
+
         <div class="baris">
- 
+
             <!-- ===== Grafik pemasukan vs pengeluaran ===== -->
             <div class="panel panel-lebar">
                 <div class="judul-panel">
@@ -150,7 +152,7 @@
                 </div>
                 <div class="grafik" id="grafik"></div>
             </div>
- 
+
             <!-- ===== Status iuran bulan berjalan ===== -->
             <div class="panel">
                 <div class="judul-panel">
@@ -162,9 +164,9 @@
                 <div class="progres"><span id="progres"></span></div>
                 <div id="daftar-belum"></div>
             </div>
- 
+
         </div>
- 
+
         <!-- ===== Ringkasan transaksi terbaru + tombol catat (FR-03, FR-04) ===== -->
         <div class="judul-bagian">
             <div>
@@ -172,17 +174,127 @@
                 <h4 class="sub">Catatan pemasukan dan pengeluaran kas kelas</h4>
             </div>
             <div>
-                <a class="tombol tombol-utama" href="data-transaksi.html?aksi=masuk"><i class="bx bx-plus"></i> Catat Pemasukan</a>
-                <a class="tombol tombol-tepi" href="data-transaksi.html?aksi=keluar"><i class="bx bx-plus"></i> Catat Pengeluaran</a>
+                <button type="button" class="tombol tombol-utama" data-buka="modal-pemasukan">
+                    <i class="bx bx-plus"></i> Catat Pemasukan
+                </button>
+                <button type="button" class="tombol tombol-tepi" data-buka="modal-pengeluaran">
+                    <i class="bx bx-plus"></i> Catat Pengeluaran
+                </button>
             </div>
+            <!-- ===== Modal Catat Pemasukan ===== -->
+<div class="modal-latar" id="modal-pemasukan" aria-hidden="true">
+    <div class="modal-kotak" role="dialog" aria-labelledby="judul-pemasukan">
+        <div class="modal-kepala">
+            <h3 id="judul-pemasukan">Catat Pemasukan</h3>
+            <button type="button" class="modal-tutup" data-tutup aria-label="Tutup">&times;</button>
         </div>
- 
+
+        <form id="form-pemasukan">
+            <div class="modal-isi">
+                <div class="kolom">
+                    <label for="pm-anggota">Nama Anggota</label>
+                    <select id="pm-anggota" required>
+                        <option value="">Pilih anggota…</option>
+                        <option>Dewi Lestari</option>
+                        <option>Nur Halimah</option>
+                        <option>Putri Ayu</option>
+                    </select>
+                </div>
+
+                <div class="dua-kolom">
+                    <div class="kolom">
+                        <label for="pm-tanggal">Tanggal Pembayaran</label>
+                        <input type="date" id="pm-tanggal" required>
+                    </div>
+                    <div class="kolom">
+                        <label for="pm-nominal">Nominal</label>
+                        <div class="input-awalan">
+                            <span>Rp</span>
+                            <input type="text" id="pm-nominal" inputmode="numeric" value="50.000" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kolom">
+                    <label for="pm-bulan">Iuran Bulan</label>
+                    <select id="pm-bulan" required></select>
+                    <small>Pembayaran otomatis masuk ke rekap bulan &amp; semester terkait</small>
+                </div>
+            </div>
+
+            <div class="modal-kaki">
+                <button type="button" class="btn-batal" data-tutup>Batal</button>
+                <button type="submit" class="btn-simpan">Simpan Data</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ===== Modal Catat Pengeluaran ===== -->
+<div class="modal-latar" id="modal-pengeluaran" aria-hidden="true">
+    <div class="modal-kotak" role="dialog" aria-labelledby="judul-pengeluaran">
+        <div class="modal-kepala">
+            <h3 id="judul-pengeluaran">Catat Pengeluaran</h3>
+            <button type="button" class="modal-tutup" data-tutup aria-label="Tutup">&times;</button>
+        </div>
+
+        <form id="form-pengeluaran">
+            <div class="modal-isi">
+                <div class="kolom">
+                    <label for="pg-jenis">Jenis Iuran</label>
+                    <div class="baris-input">
+                        <select id="pg-jenis" required>
+                            <option value="">Pilih jenis iuran…</option>
+                            <option>Kebersihan</option>
+                            <option>Acara Kelas</option>
+                            <option>Perlengkapan</option>
+                        </select>
+                        <button type="button" class="btn-kelola"><i class="bx bx-pencil"></i> Kelola</button>
+                    </div>
+                </div>
+
+                <div class="kolom">
+                    <label for="pg-keperluan">Keperluan</label>
+                    <input type="text" id="pg-keperluan" placeholder="cth. Beli ATK Kelas" required>
+                </div>
+
+                <div class="dua-kolom">
+                    <div class="kolom">
+                        <label for="pg-tanggal">Tanggal</label>
+                        <input type="date" id="pg-tanggal" required>
+                    </div>
+                    <div class="kolom">
+                        <label for="pg-nominal">Nominal</label>
+                        <div class="input-awalan">
+                            <span>Rp</span>
+                            <input type="text" id="pg-nominal" inputmode="numeric" placeholder="0" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="kolom">
+                    <label for="pg-ket">Keterangan</label>
+                    <textarea id="pg-ket" rows="3"></textarea>
+                    <small>Opsional</small>
+                </div>
+            </div>
+
+            <div class="modal-kaki">
+                <button type="button" class="btn-batal" data-tutup>Batal</button>
+                <button type="submit" class="btn-simpan">Simpan Data</button>
+            </div>
+        </form>
+    </div>
+</div>
+        </div>
+        
+
         <!-- Filter periode dan anggota -->
         <div class="filter">
             <select id="filter-periode"></select>
             <select id="filter-anggota"></select>
         </div>
- 
+
         <!-- Tabel transaksi -->
         <div class="tabel-bungkus">
             <table>
@@ -198,13 +310,13 @@
                 <tbody id="isi-transaksi"></tbody>
             </table>
         </div>
- 
+
     </main>
- 
+
     <script src="dashboard.js"></script>
     <script src="data-kas.js"></script>
     <script src="dashboard-isi.js"></script>
- 
+
 </body>
+
 </html>
- 
