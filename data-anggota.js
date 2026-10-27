@@ -136,7 +136,7 @@ form.addEventListener('submit', function (e) {
                 break;
             }
         }
-
+        saringTabel();                              // update hasil pencarian (kalau ada)
         tutupModal();
         return;
     }
@@ -156,6 +156,7 @@ form.addEventListener('submit', function (e) {
 
     tbody.appendChild(buatBaris(data));        // tambah baris baru di akhir
     jumlah.textContent = tbody.rows.length;    // update "N mahasiswa terdaftar"
+    saringTabel();                              // update hasil pencarian (kalau ada)
     tutupModal();
 });
 
@@ -201,6 +202,7 @@ tbody.addEventListener('click', function (e) {
 
     baris.remove();                               // hilangkan baris dari tabel
     jumlah.textContent = tbody.rows.length;       // update "N mahasiswa terdaftar"
+    saringTabel();                              // update hasil pencarian (kalau ada)
 });
 
 // 9. Tombol edit (pensil) di kolom Aksi
@@ -238,3 +240,31 @@ tbody.addEventListener('click', function (e) {
 
     bukaModal();
 });
+
+// 10. Pencarian NIM atau nama
+const kolomCari = document.getElementById('kolom-cari');
+const pesanKosong = document.getElementById('pesan-kosong');
+
+function saringTabel() {
+    const kata = kolomCari.value.trim().toLowerCase();   // tulisan yang diketik, dijadikan huruf kecil semua
+    let jumlahCocok = 0;
+
+    for (const baris of tbody.rows) {
+        // ambil NIM dan nam di baris ini, juga juga dijadikan huruf kecil
+        const nim  = baris.cells[0].textContent.toLowerCase();
+        const nama = baris.querySelector('.td-nama').textContent.toLowerCase();
+
+        if (nim.includes(kata) || nama.includes(kata)) {
+            baris.hidden = false;   // cocok: baris ditampilkan
+            jumlahCocok = jumlahCocok + 1;
+        } else {
+            baris.hidden = true;    // tidak cocok: baris disembunyikan
+        }
+    }
+
+    // tulisan "Anggota tidak ditemukan" hanya tampil kalau tidak ada satu pun yang cocok
+    pesanKosong.hidden = (jumlahCocok > 0);
+}
+
+// jalankan pencarian  setiap kali isi kolom berubah (saat mengetik atau menghapus huruf)
+kolomCari.addEventListener('input', saringTabel);

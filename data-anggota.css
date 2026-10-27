@@ -292,6 +292,11 @@ main h4 {
 .btn-batal  { background: #EEF2F7; color: var(--text-color); }
 .btn-simpan { background: var(--primary-color); color: #fff; }
 
+.pesan-kosong {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-muted);
+}
 /* ===== Responsive (taruh paling bawah) ===== */
 @media (max-width: 768px) {
     .page-header {
