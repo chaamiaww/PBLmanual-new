@@ -1,43 +1,121 @@
-// 1. Ambil elemen yang dibutuhkan, simpan ke variabel
-const modal  = document.getElementById('modal-anggota');
-const form   = document.getElementById('form-anggota');
-const tbody  = document.getElementById('isi-tabel');
-const jumlah = document.getElementById('jumlah-anggota');
-
-// Samakan angka "N mahasiswa terdaftar" dengan jumlah baris saat halaman dibuka
-jumlah.textContent = tbody.rows.length;
+// =====================================================
+// 1. Ambil elemen yang dibutuhkan
+// =====================================================
+const modal        = document.getElementById('modal-anggota');
+const form         = document.getElementById('form-anggota');
+const tbody        = document.getElementById('isi-tabel');
+const jumlah       = document.getElementById('jumlah-anggota');
+const kolomCari    = document.getElementById('kolom-cari');
+const pesanKosong  = document.getElementById('pesan-kosong');
+const infoPaging   = document.getElementById('info-paging');
+const tombolPaging = document.getElementById('tombol-paging');
+const toastEl      = document.getElementById('toast');
 
 // Nama "laci" tempat daftar anggota disimpan di browser
 const kunciSimpan = 'dataAnggota';
 
-// Daftar anggota awal (dipakai kalau belum ada anggota yang tersimpan di browser)
+// Berapa baris per halaman
+const PER_HALAMAN = 5;
+
+// Daftar anggota awal (dipakai kalau belum ada yang tersimpan di browser)
 const dataAwal = [
     { nim: '3312601044', nama: 'Ariel', jabatan: 'Ketua Kelas', kelas: 'IF-1B' }
 ];
 
-// Penanda mode ubah: berisi NIM anggota yang sedang diubah (null = sedang menambah anggota baru)
+// Penanda mode ubah: berisi NIM anggota yang sedang diubah (null = sedang menambah)
 let nimDiedit = null;
 
-// Mengambil daftar anggota yang tersimpan
+// Halaman tabel yang sedang dibuka
+let halaman = 1;
+
+// =====================================================
+// 2. Penyimpanan (localStorage)
+// =====================================================
 function ambilTersimpan() {
-    const teks = localStorage.getItem(kunciSimpan);
-
-    if (teks === null) {
-        return dataAwal;
+    try {
+        const teks = localStorage.getItem(kunciSimpan);
+        if (teks === null) {
+            return dataAwal.slice();
+        }
+        return JSON.parse(teks);
+    } catch (err) {
+        return dataAwal.slice();
     }
-
-    return JSON.parse(teks);
 }
 
-// 2. Fungsi buka dan tutup modal
+// Mengembalikan true kalau berhasil, false kalau gagal
+function simpan() {
+    try {
+        localStorage.setItem(kunciSimpan, JSON.stringify(daftar));
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
+
+// Seluruh data anggota disimpan di sini; tabel selalu digambar ulang dari array ini
+let daftar = ambilTersimpan();
+
+// =====================================================
+// 3. Notifikasi (toast) berhasil / gagal
+// =====================================================
+let waktuToast = null;
+
+function tampilToast(pesan, jenis) {
+    toastEl.textContent = pesan;
+    toastEl.className = 'toast show ' + jenis;     // jenis: 'sukses' atau 'gagal'
+
+    clearTimeout(waktuToast);
+    waktuToast = setTimeout(function () {
+        toastEl.classList.remove('show');
+    }, 2500);
+}
+
+// =====================================================
+// 4. Pesan error di bawah kolom
+// =====================================================
+function tampilError(namaField, pesan) {
+    const grup = form.elements[namaField].closest('.form-group');
+    grup.classList.add('error');
+    document.getElementById('err-' + namaField).textContent = pesan;
+}
+
+function bersihkanError() {
+    form.querySelectorAll('.form-group.error').forEach(function (g) {
+        g.classList.remove('error');
+    });
+    form.querySelectorAll('.pesan-error').forEach(function (p) {
+        p.textContent = '';
+    });
+}
+
+// Error satu kolom hilang begitu pengguna mulai mengetik lagi
+form.addEventListener('input', function (e) {
+    const grup = e.target.closest('.form-group');
+    if (grup === null) return;
+
+    grup.classList.remove('error');
+    const pesan = grup.querySelector('.pesan-error');
+    if (pesan !== null) pesan.textContent = '';
+});
+
+// Kolom NIM hanya menerima angka
+form.elements.nim.addEventListener('input', function () {
+    this.value = this.value.replace(/\D/g, '');
+});
+
+// =====================================================
+// 5. Buka dan tutup modal
+// =====================================================
 function bukaModal() {
     modal.classList.add('show');
-    document.getElementById('nim').focus();   // kursor langsung ke kolom NIM
+    form.elements.nim.focus();
 }
 
 function tutupModal() {
     modal.classList.remove('show');
-    form.reset();                             // kosongkan isian
+    form.reset();                      // kosongkan isian (Kelas kembali ke "IF-1B")
+    bersihkanError();
 
     // kembalikan form ke mode "tambah anggota"
     nimDiedit = null;
@@ -45,7 +123,6 @@ function tutupModal() {
     form.elements.nim.readOnly = false;
 }
 
-// 3. Pasang "pendengar" klik
 document.getElementById('btn-buka-modal').addEventListener('click', bukaModal);
 document.getElementById('btn-tutup-modal').addEventListener('click', tutupModal);
 document.getElementById('btn-batal').addEventListener('click', tutupModal);
@@ -60,17 +137,20 @@ document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') tutupModal();
 });
 
-// 4. Ambil inisial untuk avatar: "Budi Utomo" -> "BU"
+// =====================================================
+// 6. Membuat baris tabel
+// =====================================================
+// Ambil inisial untuk avatar: "Budi Utomo" -> "BU"
 function ambilInisial(nama) {
-    const kata  = nama.trim().split(/\s+/);          // pecah per spasi
+    const kata  = nama.trim().split(/\s+/);
     const awal  = kata[0][0];
     const akhir = kata.length > 1 ? kata[kata.length - 1][0] : '';
     return (awal + akhir).toUpperCase();
 }
 
-// 5. Buat satu baris tabel dari data
 function buatBaris(data) {
     const tr = document.createElement('tr');
+    tr.dataset.nim = data.nim;
 
     // kerangka statis (aman, tidak berisi input pengguna)
     tr.innerHTML = `
@@ -85,7 +165,7 @@ function buatBaris(data) {
         <td class="td-jabatan"></td>
         <td class="col-aksi">
             <div class="aksi-btn">
-                <a href="#" title="Edit" class="edit"><i class="bx bx-pencil"></i></a>
+                <a href="#" title="Ubah" class="edit"><i class="bx bx-pencil"></i></a>
                 <a href="#" title="Hapus" class="hapus"><i class="bx bx-trash"></i></a>
             </div>
         </td>
@@ -101,9 +181,98 @@ function buatBaris(data) {
     return tr;
 }
 
-// 6. Saat form disubmit
+// =====================================================
+// 7. Menggambar tabel (pencarian + pagination)
+// =====================================================
+function tampilkan() {
+    const kata = kolomCari.value.trim().toLowerCase();
+
+    // a. saring berdasarkan NIM atau nama
+    const hasil = daftar.filter(function (a) {
+        return a.nim.toLowerCase().includes(kata) ||
+               a.nama.toLowerCase().includes(kata);
+    });
+
+    // b. hitung halaman
+    const totalHalaman = Math.max(1, Math.ceil(hasil.length / PER_HALAMAN));
+    if (halaman > totalHalaman) halaman = totalHalaman;
+    if (halaman < 1) halaman = 1;
+
+    const mulai = (halaman - 1) * PER_HALAMAN;
+    const tampil = hasil.slice(mulai, mulai + PER_HALAMAN);
+
+    // c. gambar ulang baris tabel
+    tbody.innerHTML = '';
+    tampil.forEach(function (a) {
+        tbody.appendChild(buatBaris(a));
+    });
+
+    // d. jumlah anggota di judul
+    jumlah.textContent = daftar.length;
+
+    // e. pesan kosong: dibedakan antara "belum ada data" dan "pencarian tidak cocok"
+    if (daftar.length === 0) {
+        pesanKosong.textContent = 'Belum ada data anggota.';
+        pesanKosong.hidden = false;
+    } else if (hasil.length === 0) {
+        pesanKosong.textContent = 'Data tidak ditemukan';
+        pesanKosong.hidden = false;
+    } else {
+        pesanKosong.hidden = true;
+    }
+
+    // f. teks "Menampilkan 1-5 dari 5 data"
+    if (hasil.length === 0) {
+        infoPaging.textContent = 'Menampilkan 0 dari 0 data';
+    } else {
+        infoPaging.textContent = 'Menampilkan ' + (mulai + 1) + '-' +
+                                 (mulai + tampil.length) + ' dari ' +
+                                 hasil.length + ' data';
+    }
+
+    buatPaging(totalHalaman);
+}
+
+function buatTombolHalaman(isi, tujuan, nonaktif, aktif, label) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'paging-item' + (aktif ? ' aktif' : '');
+    b.innerHTML = isi;
+    b.disabled = nonaktif;
+    b.setAttribute('aria-label', label);
+    b.addEventListener('click', function () {
+        halaman = tujuan;
+        tampilkan();
+    });
+    return b;
+}
+
+function buatPaging(totalHalaman) {
+    tombolPaging.innerHTML = '';
+
+    tombolPaging.appendChild(
+        buatTombolHalaman('<i class="bx bx-chevron-left"></i>', halaman - 1, halaman === 1, false, 'Halaman sebelumnya')
+    );
+
+    for (let i = 1; i <= totalHalaman; i++) {
+        tombolPaging.appendChild(
+            buatTombolHalaman(String(i), i, false, i === halaman, 'Halaman ' + i)
+        );
+    }
+
+    tombolPaging.appendChild(
+        buatTombolHalaman('<i class="bx bx-chevron-right"></i>', halaman + 1, halaman === totalHalaman, false, 'Halaman berikutnya')
+    );
+}
+
+// =====================================================
+// 8. Simpan form (tambah / ubah)
+// =====================================================
 form.addEventListener('submit', function (e) {
     e.preventDefault();      // cegah halaman reload
+    bersihkanError();
+
+    const modeUbah = (nimDiedit !== null);
 
     const data = {
         nim:     form.elements.nim.value.trim(),
@@ -112,159 +281,133 @@ form.addEventListener('submit', function (e) {
         kelas:   form.elements.kelas.value
     };
 
-    // validasi: NIM harus 10 digit angka
-    if (!/^\d{10}$/.test(data.nim)) {
-        alert('NIM harus berupa 10 digit angka.');
+    // ----- validasi -----
+    let adaError = false;
+
+    if (data.nim === '') {
+        tampilError('nim', 'Kolom ini wajib diisi');
+        adaError = true;
+    } else if (!/^\d{10}$/.test(data.nim)) {
+        tampilError('nim', 'NIM harus berupa 10 digit angka');
+        adaError = true;
+    } else if (!modeUbah && daftar.some(function (a) { return a.nim === data.nim; })) {
+        tampilError('nim', 'NIM ini sudah terdaftar');
+        adaError = true;
+    }
+
+    if (data.nama === '') {
+        tampilError('nama', 'Kolom ini wajib diisi');
+        adaError = true;
+    }
+
+    if (adaError) {
+        tampilToast('Data gagal disimpan. Periksa kembali isian.', 'gagal');
         return;
     }
 
-    // mode ubah: perbarui anggota yang sudah ada, lalu selesai
-    if (nimDiedit !== null) {
-        const daftarLama = ambilTersimpan();
+    // ----- simpan -----
+    const cadangan = daftar.slice();         // untuk dibatalkan kalau penyimpanan gagal
 
-        for (let i = 0; i < daftarLama.length; i++) {
-            if (daftarLama[i].nim === nimDiedit) {
-                daftarLama[i] = data;                 // ganti data lama dengan data baru
-            }
-        }
-        localStorage.setItem(kunciSimpan, JSON.stringify(daftarLama));
+    if (modeUbah) {
+        daftar = daftar.map(function (a) {
+            return a.nim === nimDiedit ? data : a;
+        });
+    } else {
+        daftar.push(data);
+        kolomCari.value = '';                // hapus pencarian supaya anggota baru terlihat
+        halaman = Math.ceil(daftar.length / PER_HALAMAN);   // lompat ke halaman terakhir
+    }
 
-        // ganti baris lama di tabel dengan baris yang baru
-        for (const baris of tbody.rows) {
-            if (baris.cells[0].textContent.trim() === nimDiedit) {
-                baris.replaceWith(buatBaris(data));
-                break;
-            }
-        }
-        saringTabel();                              // update hasil pencarian (kalau ada)
-        tutupModal();
+    if (!simpan()) {
+        daftar = cadangan;
+        tampilToast('Data gagal disimpan.', 'gagal');
         return;
     }
 
-    // validasi: NIM tidak boleh kembar
-    for (const baris of tbody.rows) {
-        if (baris.cells[0].textContent.trim() === data.nim) {
-            alert('NIM ini sudah terdaftar.');
+    tutupModal();
+    tampilkan();
+    tampilToast(modeUbah ? 'Data berhasil diubah' : 'Data berhasil disimpan', 'sukses');
+});
+
+// =====================================================
+// 9. Tombol edit dan hapus di kolom Aksi
+// =====================================================
+tbody.addEventListener('click', function (e) {
+
+    // ----- hapus -----
+    const tombolHapus = e.target.closest('.hapus');
+    if (tombolHapus !== null) {
+        e.preventDefault();
+
+        const nim = tombolHapus.closest('tr').dataset.nim;
+        const anggota = daftar.find(function (a) { return a.nim === nim; });
+        if (anggota === undefined) return;
+
+        // aturan: anggota yang sudah punya transaksi tidak boleh dihapus
+        if (hitungPemakaianAnggota(nim) > 0) {
+            tampilToast('Tidak dapat dihapus karena sudah dipakai oleh transaksi.', 'gagal');
             return;
         }
-    }
 
-    // simpan anggota baru ke browser supaya tidak hilang saat halaman dimuat ulang
-    const daftar = ambilTersimpan();
-    daftar.push(data);
-    localStorage.setItem(kunciSimpan, JSON.stringify(daftar));
+        // dialog konfirmasi
+        if (!confirm('Hapus anggota ' + anggota.nama + ' (' + anggota.nim + ')?')) {
+            return;
+        }
 
-    tbody.appendChild(buatBaris(data));        // tambah baris baru di akhir
-    jumlah.textContent = tbody.rows.length;    // update "N mahasiswa terdaftar"
-    saringTabel();                              // update hasil pencarian (kalau ada)
-    tutupModal();
-});
+        const cadangan = daftar.slice();
+        daftar = daftar.filter(function (a) { return a.nim !== nim; });
 
-// 7. Saat halaman dibuka: tampilkan anggota yang tersimpan ke tabel
-const tersimpan = ambilTersimpan();
+        if (!simpan()) {
+            daftar = cadangan;
+            tampilToast('Data gagal dihapus.', 'gagal');
+            return;
+        }
 
-for (let i = 0; i < tersimpan.length; i++) {
-    tbody.appendChild(buatBaris(tersimpan[i]));
-}
-
-jumlah.textContent = tbody.rows.length;
-
-// 8. Tombol hapus di kolom Aksi
-tbody.addEventListener('click', function (e) {
-    const tombol = e.target.closest('.hapus');   // cek: yang diklik tombol hapus atau bukan
-
-    if (tombol === null) {
-        return;                                   // bukan tombol hapus, abaikan
-    }
-
-    e.preventDefault();                           // cegah link "#" melompat ke atas halaman
-
-    const baris = tombol.closest('tr');
-    const nim   = baris.cells[0].textContent.trim();
-    const nama  = baris.querySelector('.td-nama').textContent;
-
-    // minta konfirmasi dulu
-    if (!confirm('Hapus anggota ' + nama + ' (' + nim + ')?')) {
+        tampilkan();
+        tampilToast('Data berhasil dihapus', 'sukses');
         return;
     }
 
-    // buang anggota itu dari daftar yang tersimpan di browser
-    const daftar = ambilTersimpan();
-    const sisa = [];
+    // ----- edit -----
+    const tombolEdit = e.target.closest('.edit');
+    if (tombolEdit !== null) {
+        e.preventDefault();
 
-    for (let i = 0; i < daftar.length; i++) {
-        if (daftar[i].nim !== nim) {
-            sisa.push(daftar[i]);
-        }
+        const nim = tombolEdit.closest('tr').dataset.nim;
+        const anggota = daftar.find(function (a) { return a.nim === nim; });
+        if (anggota === undefined) return;
+
+        // isi form dengan data anggota itu
+        form.elements.nim.value     = anggota.nim;
+        form.elements.nama.value    = anggota.nama;
+        form.elements.jabatan.value = anggota.jabatan;
+        form.elements.kelas.value   = anggota.kelas;
+
+        // ubah form menjadi mode ubah: judul diganti, NIM dikunci
+        nimDiedit = nim;
+        document.getElementById('judul-modal').textContent = 'Ubah Data Anggota';
+        form.elements.nim.readOnly = true;
+
+        bukaModal();
     }
-
-    localStorage.setItem(kunciSimpan, JSON.stringify(sisa));
-
-    baris.remove();                               // hilangkan baris dari tabel
-    jumlah.textContent = tbody.rows.length;       // update "N mahasiswa terdaftar"
-    saringTabel();                              // update hasil pencarian (kalau ada)
 });
 
-// 9. Tombol edit (pensil) di kolom Aksi
-tbody.addEventListener('click', function (e) {
-    const tombol = e.target.closest('.edit');    // cek: yang diklik tombol edit atau bukan
-
-    if (tombol === null) {
-        return;                                   // bukan tombol edit, abaikan
-    }
-
-    e.preventDefault();                           // cegah link "#" melompat ke atas halaman
-
-    const baris = tombol.closest('tr');
-    const nim   = baris.cells[0].textContent.trim();
-
-    // cari data lengkap anggota itu di daftar yang tersimpan
-    const daftar = ambilTersimpan();
-    let anggota = null;
-
-    for (let i = 0; i < daftar.length; i++) {
-        if (daftar[i].nim === nim) {
-            anggota = daftar[i];
-        }
-    }
-
-    // isi form dengan data anggota itu
-    form.elements.nim.value     = anggota.nim;
-    form.elements.nama.value    = anggota.nama;
-    form.elements.jabatan.value = anggota.jabatan;
-
-    // ubah form menjadi mode ubah: judul diganti, NIM dikunci supaya tidak bisa diganti
-    nimDiedit = nim;
-    document.getElementById('judul-modal').textContent = 'Ubah Data Anggota';
-    form.elements.nim.readOnly = true;
-
-    bukaModal();
-});
-
+// =====================================================
 // 10. Pencarian NIM atau nama
-const kolomCari = document.getElementById('kolom-cari');
-const pesanKosong = document.getElementById('pesan-kosong');
+// =====================================================
+kolomCari.addEventListener('input', function () {
+    halaman = 1;          // setiap pencarian baru mulai dari halaman 1
+    tampilkan();
+});
 
-function saringTabel() {
-    const kata = kolomCari.value.trim().toLowerCase();   // tulisan yang diketik, dijadikan huruf kecil semua
-    let jumlahCocok = 0;
+// =====================================================
+// 11. Tampilkan tabel saat halaman dibuka
+// =====================================================
+tampilkan();
 
-    for (const baris of tbody.rows) {
-        // ambil NIM dan nam di baris ini, juga juga dijadikan huruf kecil
-        const nim  = baris.cells[0].textContent.toLowerCase();
-        const nama = baris.querySelector('.td-nama').textContent.toLowerCase();
-
-        if (nim.includes(kata) || nama.includes(kata)) {
-            baris.hidden = false;   // cocok: baris ditampilkan
-            jumlahCocok = jumlahCocok + 1;
-        } else {
-            baris.hidden = true;    // tidak cocok: baris disembunyikan
-        }
+// Kolom pencarian di topbar: tekan Enter untuk mencari di halaman Data Transaksi (FR-05)
+document.getElementById('cari-atas').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+        window.location.href = 'data-transaksi.html?q=' + encodeURIComponent(this.value);
     }
-
-    // tulisan "Anggota tidak ditemukan" hanya tampil kalau tidak ada satu pun yang cocok
-    pesanKosong.hidden = (jumlahCocok > 0);
-}
-
-// jalankan pencarian  setiap kali isi kolom berubah (saat mengetik atau menghapus huruf)
-kolomCari.addEventListener('input', saringTabel);
+});

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenis Iuran - Payclass</title>
+    <!-- css -->
+    <link rel="stylesheet" href="dashboard.css">
+    <!-- boxicon css -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- pakai gaya yang sama dengan halaman Data Anggota -->
+    <link rel="stylesheet" href="data-anggota.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo-payclass.png" alt="Logo PayClass">
+                </span>
+                <div class="text header-text">
+                    <span class="profession">Kas Kelas IF-1B</span>
+                </div>
+            </div>
+
+            <i class="bx bx-chevron-right toggle"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <p class="menu-label">MENU</p>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="dashboard.html">
+                            <i class="bx bx-home-alt icon"></i>
+                            <span class="text nav-text">Dasbor</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <p class="menu-label">DATA UTAMA</p>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="data-anggota.html">
+                            <i class="bx bx-group icon"></i>
+                            <span class="text nav-text">Data Anggota</span>
+                        </a>
+                    </li>
+
+                    <!-- class "active" ada di sini karena kita sedang di halaman Jenis Iuran -->
+                    <li class="nav-link active">
+                        <a href="data-jenis-iuran.html">
+                            <i class="bx bx-receipt icon"></i>
+                            <span class="text nav-text">Jenis Iuran</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="data-transaksi.html">
+                            <i class="bx bx-transfer icon"></i>
+                            <span class="text nav-text">Data Transaksi</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="menu-links menu-links-last">
+                    <li class="nav-link">
+                        <a href="laporan.html">
+                            <i class="bx bx-bar-chart-alt-2 icon"></i>
+                            <span class="text nav-text">Laporan</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <ul>
+                    <li class="logout">
+                        <a href="login.html">
+                            <i class="bx bx-log-out icon"></i>
+                            <span class="text nav-text">Keluar</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="user-profile">
+                    <div class="avatar">C</div>
+                    <div class="text user-info">
+                        <span class="user-name">Charisa</span>
+                        <span class="user-role">Bendahara</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- bilah atas -->
+    <header class="topbar">
+        <div class="search-pill">
+            <i class="bx bx-search"></i>
+            <input type="search" id="cari-atas" placeholder="Cari anggota atau transaksi...">
+        </div>
+        <div class="user-pill">
+            <span>Charisa</span>
+            <i class="bx bx-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- isi halaman -->
+    <main class="home">
+
+        <!-- Baris atas: judul kiri, search + tombol kanan -->
+        <div class="page-header">
+            <div class="page-title">
+                <h2>Daftar Jenis Iuran</h2>
+                <h4><span id="jumlah-iuran">0</span> jenis iuran</h4>
+            </div>
+
+            <div class="page-actions">
+                <div class="search-main">
+                    <i class="bx bx-search"></i>
+                    <input type="search" id="kolom-cari" placeholder="Cari jenis iuran...">
+                </div>
+                <button type="button" class="btn-tambah" id="btn-buka-modal">
+                    <i class="bx bx-plus"></i> Tambah Iuran
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabel -->
+        <div class="table-wrap">
+            <table class="tabel-anggota">
+                <thead>
+                    <tr>
+                        <th>Nama Iuran</th>
+                        <th style="text-align: right;">Nominal</th>
+                        <th>Periode</th>
+                        <th class="col-aksi">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="isi-tabel">
+                </tbody>
+            </table>
+
+            <!-- Pesan kosong: teksnya diisi oleh JavaScript -->
+            <p class="pesan-kosong" id="pesan-kosong" hidden></p>
+
+            <!-- Pagination -->
+            <div class="paging">
+                <p class="paging-info" id="info-paging"></p>
+                <div class="paging-btn" id="tombol-paging"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal Tambah/Ubah Jenis Iuran -->
+    <div class="modal-overlay" id="modal-iuran">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="judul-modal">
+
+            <div class="modal-header">
+                <h3 id="judul-modal">Tambah Jenis Iuran</h3>
+                <button type="button" class="modal-close" id="btn-tutup-modal" aria-label="Tutup">
+                    <i class="bx bx-x"></i>
+                </button>
+            </div>
+
+            <!-- novalidate: validasi dilakukan oleh JavaScript, pesannya tampil di bawah kolom -->
+            <form id="form-iuran" novalidate>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="nama">Nama Iuran</label>
+                        <input type="text" id="nama" name="nama" placeholder="Contoh: Kas Bulanan" maxlength="100">
+                        <small class="pesan-error" id="err-nama"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nominal">Nominal</label>
+                        <div class="input-awalan">
+                            <span>Rp</span>
+                            <input type="text" id="nominal" name="nominal" inputmode="numeric" placeholder="10.000">
+                        </div>
+                        <small class="pesan-error" id="err-nominal"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="periode">Periode</label>
+                        <select id="periode" name="periode">
+                            <option value="Per Bulan" selected>Per Bulan</option>
+                            <option value="Per Semester">Per Semester</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-batal" id="btn-batal">Batal</button>
+                    <button type="submit" class="btn btn-simpan">Simpan Data</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- notifikasi berhasil/gagal -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- urutan penting: data-kas.js dulu, baru file halaman -->
+    <script src="dashboard.js"></script>
+    <script src="data-kas.js"></script>
+    <script src="sesi.js"></script>
+    <script>jagaHalaman('bendahara');</script>
+    <script src="data-jenis-iuran.js"></script>
+
+</body>
+</html>

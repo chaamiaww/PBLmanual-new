@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Iuran - Payclass</title>
+    <!-- css -->
+    <link rel="stylesheet" href="dashboard.css">
+    <!-- boxicon css -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- gaya isi halaman: kartu, tabel, label -->
+    <link rel="stylesheet" href="konten.css">
+</head>
+
+<body>
+    <nav class="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo-payclass.png" alt="Logo PayClass">
+                </span>
+                <div class="text header-text">
+                    <span class="profession">Kas Kelas IF-1B</span>
+                </div>
+            </div>
+
+            <i class="bx bx-chevron-right toggle"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <p class="menu-label">MENU</p>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="dashboard-anggota.html">
+                            <i class="bx bx-home-alt icon"></i>
+                            <span class="text nav-text">Dasbor</span>
+                        </a>
+                    </li>
+                    <li class="nav-link active">
+                        <a href="riwayat-iuran.html">
+                            <i class="bx bx-history icon"></i>
+                            <span class="text nav-text">Riwayat Iuran</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <ul>
+                    <li class="logout">
+                        <a href="login.html">
+                            <i class="bx bx-log-out icon"></i>
+                            <span class="text nav-text">Keluar</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="user-profile">
+                    <div class="avatar">A</div>
+                    <div class="text user-info">
+                        <span class="user-name">Anggota</span>
+                        <span class="user-role">Anggota</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- bilah atas (anggota tidak punya kolom cari, karena hanya boleh melihat data sendiri) -->
+    <header class="topbar">
+        <div class="user-pill">
+            <span>Anggota</span>
+        </div>
+    </header>
+
+    <!-- isi halaman -->
+    <main class="home">
+
+        <h1>Riwayat Iuran</h1>
+        <h4 class="sub" id="sub-total"></h4>
+
+        <!-- Filter -->
+        <div class="filter">
+            <div>
+                <label for="f-semester">Semester</label>
+                <select id="f-semester"></select>
+            </div>
+            <div>
+                <label for="f-jenis">Jenis Iuran</label>
+                <select id="f-jenis"></select>
+            </div>
+            <button type="button" class="tombol tombol-tepi" id="f-reset">Atur Ulang</button>
+        </div>
+
+        <!-- Tabel riwayat pembayaran milik sendiri -->
+        <div class="tabel-bungkus">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tanggal Pembayaran</th>
+                        <th>Jenis Iuran</th>
+                        <th>Bulan Iuran</th>
+                        <th>Status</th>
+                        <th>Nominal</th>
+                    </tr>
+                </thead>
+                <tbody id="isi-riwayat"></tbody>
+            </table>
+
+            <p class="pesan-kosong" id="pesan-kosong" hidden></p>
+
+            <div class="paging">
+                <p class="paging-info" id="info-paging"></p>
+                <div class="paging-btn" id="tombol-paging"></div>
+            </div>
+        </div>
+
+        <!-- Status iuran bulanan per bulan (untuk melihat tunggakan) -->
+        <div class="judul-bagian">
+            <div>
+                <h2>Status Iuran per Bulan</h2>
+                <h4 class="sub" id="sub-status"></h4>
+            </div>
+        </div>
+        <div class="tabel-bungkus">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bulan</th>
+                        <th>Status</th>
+                        <th>Tanggal Pembayaran</th>
+                    </tr>
+                </thead>
+                <tbody id="isi-status"></tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- urutan penting: data-kas.js dulu, lalu sesi.js, terakhir skrip halaman -->
+    <script src="dashboard.js"></script>
+    <script src="data-kas.js"></script>
+    <script src="sesi.js"></script>
+    <script src="riwayat-iuran.js"></script>
+
+</body>
+
+</html>

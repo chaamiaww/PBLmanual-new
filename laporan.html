@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan - Payclass</title>
+    <!-- css -->
+    <link rel="stylesheet" href="dashboard.css">
+    <!-- boxicon css -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- gaya isi halaman: kartu, tabel, filter -->
+    <link rel="stylesheet" href="konten.css">
+</head>
+
+<body>
+    <nav class="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo-payclass.png" alt="Logo PayClass">
+                </span>
+                <div class="text header-text">
+                    <span class="profession">Kas Kelas IF-1B</span>
+                </div>
+            </div>
+
+            <i class="bx bx-chevron-right toggle"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <p class="menu-label">MENU</p>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="dashboard.html">
+                            <i class="bx bx-home-alt icon"></i>
+                            <span class="text nav-text">Dasbor</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <p class="menu-label">DATA UTAMA</p>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="data-anggota.html">
+                            <i class="bx bx-group icon"></i>
+                            <span class="text nav-text">Data Anggota</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="data-jenis-iuran.html">
+                            <i class="bx bx-receipt icon"></i>
+                            <span class="text nav-text">Jenis Iuran</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="data-transaksi.html">
+                            <i class="bx bx-transfer icon"></i>
+                            <span class="text nav-text">Data Transaksi</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- class "active" ada di sini karena kita sedang di halaman Laporan -->
+                <ul class="menu-links menu-links-last">
+                    <li class="nav-link active">
+                        <a href="laporan.html">
+                            <i class="bx bx-bar-chart-alt-2 icon"></i>
+                            <span class="text nav-text">Laporan</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <ul>
+                    <li class="logout">
+                        <a href="login.html">
+                            <i class="bx bx-log-out icon"></i>
+                            <span class="text nav-text">Keluar</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="user-profile">
+                    <div class="avatar">C</div>
+                    <div class="text user-info">
+                        <span class="user-name">Charisa</span>
+                        <span class="user-role">Bendahara</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- bilah atas -->
+    <header class="topbar">
+        <div class="search-pill">
+            <i class="bx bx-search"></i>
+            <input type="search" id="cari" placeholder="Cari anggota atau transaksi...">
+        </div>
+        <div class="user-pill">
+            <span>Charisa</span>
+            <i class="bx bx-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- isi halaman -->
+    <main class="home">
+
+        <h1>Laporan Kas</h1>
+        <h4 class="sub">Rekap kas kelas IF-1B, dihitung otomatis dari data transaksi</h4>
+
+        <!-- ===== Filter utama ===== -->
+        <div class="filter">
+            <div>
+                <label for="f-semester">Semester</label>
+                <select id="f-semester"></select>
+            </div>
+            <div>
+                <label for="f-anggota">Anggota</label>
+                <select id="f-anggota"></select>
+            </div>
+        </div>
+        <p class="catatan-laporan" id="catatan-anggota" hidden>
+            Pilihan anggota di atas hanya menghitung pemasukan anggota tersebut. Pengeluaran kas tidak ikut dihitung karena tidak terkait anggota.
+        </p>
+
+        <!-- ===== Tiga kartu ringkasan ===== -->
+        <div class="baris">
+            <div class="kartu kartu-masuk">
+                <div>
+                    <small>Pemasukan</small>
+                    <b id="lap-masuk"></b>
+                    <p class="keterangan" id="ket-masuk"></p>
+                </div>
+                <i class="bx bx-up-arrow-alt ikon-kartu"></i>
+            </div>
+
+            <div class="kartu kartu-keluar">
+                <div>
+                    <small>Pengeluaran</small>
+                    <b id="lap-keluar"></b>
+                    <p class="keterangan" id="ket-keluar"></p>
+                </div>
+                <i class="bx bx-down-arrow-alt ikon-kartu"></i>
+            </div>
+
+            <div class="kartu kartu-saldo">
+                <div>
+                    <small>Saldo akhir</small>
+                    <b id="lap-saldo"></b>
+                    <p class="keterangan" id="ket-saldo"></p>
+                </div>
+                <i class="bx bx-wallet ikon-kartu"></i>
+            </div>
+        </div>
+
+        <!-- ===== Rekap per bulan ===== -->
+        <section class="bagian-laporan">
+            <div class="judul-bagian">
+                <h2>Rekap per Bulan</h2>
+                <select id="f-bulan-rekap"></select>
+            </div>
+            <div class="tabel-bungkus">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bulan</th>
+                            <th class="kanan">Pemasukan</th>
+                            <th class="kanan">Pengeluaran</th>
+                            <th class="kanan">Selisih</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isi-rekap-bulan"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== Rekap per semester ===== -->
+        <section class="bagian-laporan">
+            <div class="judul-bagian">
+                <h2>Rekap per Semester</h2>
+                <select id="f-semester-rekap"></select>
+            </div>
+            <div class="tabel-bungkus">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Semester</th>
+                            <th class="kanan">Pemasukan</th>
+                            <th class="kanan">Pengeluaran</th>
+                            <th class="kanan">Saldo akhir</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isi-rekap-semester"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== Buku kas ===== -->
+        <section class="bagian-laporan">
+            <div class="judul-bagian">
+                <div>
+                    <h2>Buku Kas</h2>
+                    <h4 class="sub">Saldo berjalan berdasarkan urutan tanggal transaksi</h4>
+                </div>
+            </div>
+            <div class="tabel-bungkus tabel-gulir">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Keterangan</th>
+                            <th class="kanan">Masuk</th>
+                            <th class="kanan">Keluar</th>
+                            <th class="kanan">Saldo berjalan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isi-buku-kas"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===== Status iuran anggota (rekap pembayaran, FR-07) ===== -->
+        <section class="bagian-laporan">
+            <div class="judul-bagian">
+                <div>
+                    <h2>Status Iuran Anggota</h2>
+                    <h4 class="sub" id="ringkas-status"></h4>
+                </div>
+                <div class="kelompok-filter">
+                    <select id="f-jenis-status" aria-label="Jenis iuran"></select>
+                    <select id="f-bulan-status" aria-label="Bulan"></select>
+                    <select id="f-status" aria-label="Status bayar">
+                        <option value="">Semua status</option>
+                        <option value="lunas">Lunas</option>
+                        <option value="belum">Belum Bayar</option>
+                    </select>
+                </div>
+            </div>
+            <div class="tabel-bungkus">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama Anggota</th>
+                            <th>Kelas</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isi-status"></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- urutan penting: data-kas.js dulu, baru laporan.js -->
+    <script src="dashboard.js"></script>
+    <script src="data-kas.js"></script>
+    <script src="sesi.js"></script>
+    <script>jagaHalaman('bendahara');</script>
+    <script src="laporan.js"></script>
+
+</body>
+
+</html>

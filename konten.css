@@ -533,3 +533,332 @@
     padding: 6px 12px;
     font-size: 13px;
 }
+/* ===== TEMPELKAN DI BAGIAN PALING BAWAH konten.css =====
+
+   SEBELUM ITU, di konten.css bagian "6. Grafik batang" ganti dua nama kelas ini:
+       .kolom {          ->   .kolom-grafik {
+       .kolom span {     ->   .kolom-grafik span {
+   (nama .kolom bentrok dengan kelas .kolom untuk form di dashboard.css)
+   ========================================================== */
+
+
+/* ---- Kartu keempat: Tunggakan ---- */
+.kartu-tunggak {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--danger);
+    color: var(--text-color);
+}
+
+.kartu-tunggak b {
+    color: var(--danger);
+}
+
+.kartu-tunggak .ikon-kartu {
+    background: var(--danger);
+}
+
+
+/* ---- Grafik: angka skala di sumbu Y ---- */
+.grafik-bungkus {
+    display: flex;
+    gap: 10px;
+}
+
+.grafik-bungkus .grafik {
+    flex: 1;
+    min-width: 0;
+}
+
+.sumbu-y {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-self: flex-end;
+    height: 160px;
+    margin-bottom: 33px;      /* sejajarkan dengan dasar batang; sesuaikan kalau kurang pas */
+    font-size: 11px;
+    line-height: 1;
+    color: var(--text-muted);
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* Sepasang batang per bulan (pengganti nama lama .kolom) */
+.kolom-grafik {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.kolom-grafik span {
+    margin: 8px 0;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+
+/* ---- Judul bagian yang berisi h1 / h2 ---- */
+.judul-bagian h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.link-semua {
+    margin-top: 12px;
+    text-align: right;
+    font-size: 14px;
+}
+
+.link-semua a {
+    color: var(--active-text);
+    text-decoration: none;
+}
+
+.link-semua a:hover {
+    text-decoration: underline;
+}
+
+.keterangan-kecil {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+
+/* ---- Kolom pencarian di baris filter ---- */
+.filter input[type="search"] {
+    height: 38px;
+    min-width: 220px;
+    padding: 0 12px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.tab-bar {
+    margin: 4px 0 4px;
+}
+
+.aksi .ikon-aksi {
+    padding: 0 4px;
+}
+
+
+/* ---- Pesan kosong di bawah tabel ---- */
+.pesan-kosong {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+
+/* ---- Pesan error di form pop-up ---- */
+.form-group.error input,
+.form-group.error select {
+    border-color: var(--danger);
+}
+
+.form-group.error .input-awalan {
+    border-color: var(--danger);
+}
+
+.pesan-error {
+    margin-top: 4px;
+    min-height: 0;
+    font-size: 12px;
+    color: var(--danger);
+}
+
+.pesan-error:empty {
+    display: none;
+}
+
+.baris-input input {
+    flex: 1;
+}
+
+
+/* ---- Kelola Keperluan ---- */
+.tabel-kelola {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabel-kelola th {
+    padding: 10px 14px;
+    background: var(--primary-color);
+    color: #fff;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.tabel-kelola td {
+    padding: 10px 14px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+}
+
+
+/* ---- Notifikasi berhasil / gagal (pojok kanan bawah) ---- */
+.toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 2000;
+    max-width: 320px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: var(--tran-03);
+}
+
+.toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.toast.sukses {
+    background: #DCFCE7;
+    color: #166534;
+    border: 1px solid #86EFAC;
+}
+
+.toast.gagal {
+    background: #FEE2E2;
+    color: #991B1B;
+    border: 1px solid #FCA5A5;
+}
+
+
+/* ---- Pagination di bawah tabel ---- */
+.paging {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--line);
+}
+
+.paging-info {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.paging-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.paging-item {
+    min-width: 34px;
+    height: 34px;
+    display: inline-grid;
+    place-items: center;
+    padding: 0 8px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-color);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.paging-item:hover:not(:disabled) {
+    background: var(--primary-color-light);
+}
+
+.paging-item.aktif {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.paging-item:disabled {
+    color: var(--navy-muted);
+    cursor: not-allowed;
+}
+
+
+/* ===== Halaman anggota (hanya lihat) ===== */
+
+/* kotak sambutan */
+.sambutan {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 18px 24px;
+    border-radius: 14px;
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.sambutan-kiri {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.sambutan small {
+    display: block;
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+.sambutan b {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.avatar-besar {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    font-weight: 600;
+}
+
+.lencana-lihat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 13px;
+}
+
+/* kartu status iuran saya */
+.kartu-status { background: #fff; color: var(--text-color); border: 1px solid var(--line); }
+.kartu-status .ikon-kartu { background: var(--primary-color); }
+
+/* label abu-abu (belum jatuh tempo) */
+.lbl-abu { background: #EEF0F3; color: var(--text-muted); }
+
+/* filter yang hanya berisi satu pilihan */
+.filter-kecil {
+    margin: 0;
+}
+
+/* baris total di bawah tabel */
+.home tbody tr.baris-total td {
+    font-weight: 600;
+    background: #F3F6FB;
+}

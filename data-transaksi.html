@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beranda - Payclass</title>
+    <title>Data Transaksi - Payclass</title>
     <!-- css -->
     <link rel="stylesheet" href="dashboard.css">
     <!-- boxicon css -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <!-- gaya isi halaman: kartu, grafik, tabel -->
+    <!-- gaya isi halaman: kartu, tabel, tab, pop-up -->
     <link rel="stylesheet" href="konten.css">
 </head>
 
@@ -33,10 +33,10 @@
 
                 <p class="menu-label">MENU</p>
                 <ul class="menu-links">
-                    <li class="nav-link active">
+                    <li class="nav-link">
                         <a href="dashboard.html">
                             <i class="bx bx-home-alt icon"></i>
-                            <span class="text nav-text">Dashboard</span>
+                            <span class="text nav-text">Dasbor</span>
                         </a>
                     </li>
                 </ul>
@@ -50,7 +50,16 @@
                         </a>
                     </li>
 
+                    <!-- link diganti kalau halaman Jenis Iuran sudah jadi -->
                     <li class="nav-link">
+                        <a href="data-jenis-iuran.html">
+                            <i class="bx bx-receipt icon"></i>
+                            <span class="text nav-text">Jenis Iuran</span>
+                        </a>
+                    </li>
+
+                    <!-- class "active" ada di sini karena kita sedang di halaman Data Transaksi -->
+                    <li class="nav-link active">
                         <a href="data-transaksi.html">
                             <i class="bx bx-transfer icon"></i>
                             <span class="text nav-text">Data Transaksi</span>
@@ -103,128 +112,51 @@
     <!-- isi halaman -->
     <main class="home">
 
-        <h1>Semua Transaksi</h1>
-        <h4 class="sub">Kelola catatan Kas masuk dan keluar</h4>
-        <!-- ===== Ringkasan transaksi terbaru + tombol catat (FR-03, FR-04) ===== -->
         <div class="judul-bagian">
             <div>
-                <h2>Ringkasan Transaksi Terbaru</h2>
-                <h4 class="sub">Catatan pemasukan dan pengeluaran kas kelas</h4>
+                <h1>Semua Transaksi</h1>
+                <h4 class="sub">Kelola catatan kas masuk dan keluar</h4>
             </div>
             <div>
-                <button type="button" class="tombol tombol-utama" data-buka="modal-pemasukan">
+                <button type="button" class="tombol tombol-utama" data-buka="masuk">
                     <i class="bx bx-plus"></i> Catat Pemasukan
                 </button>
-                <button type="button" class="tombol tombol-tepi" data-buka="modal-pengeluaran">
+                <button type="button" class="tombol tombol-tepi" data-buka="keluar">
                     <i class="bx bx-plus"></i> Catat Pengeluaran
                 </button>
             </div>
-            <!-- ===== Modal Catat Pemasukan ===== -->
-            <div class="modal-latar" id="modal-pemasukan" aria-hidden="true">
-                <div class="modal-kotak" role="dialog" aria-labelledby="judul-pemasukan">
-                    <div class="modal-kepala">
-                        <h3 id="judul-pemasukan">Catat Pemasukan</h3>
-                        <button type="button" class="modal-tutup" data-tutup aria-label="Tutup">&times;</button>
-                    </div>
-
-                    <form id="form-pemasukan">
-                        <div class="modal-isi">
-                            <div class="kolom">
-                                <label for="pm-anggota">Nama Anggota</label>
-                                <select id="pm-anggota" required>
-                                    <option value="">Pilih anggota…</option>
-                                    <option>Dewi Lestari</option>
-                                    <option>Nur Halimah</option>
-                                    <option>Putri Ayu</option>
-                                </select>
-                            </div>
-
-                            <div class="dua-kolom">
-                                <div class="kolom">
-                                    <label for="pm-tanggal">Tanggal Pembayaran</label>
-                                    <input type="date" id="pm-tanggal" required>
-                                </div>
-                                <div class="kolom">
-                                    <label for="pm-nominal">Nominal</label>
-                                    <div class="input-awalan">
-                                        <span>Rp</span>
-                                        <input type="text" id="pm-nominal" inputmode="numeric" value="50.000" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="kolom">
-                                <label for="pm-bulan">Iuran Bulan</label>
-                                <select id="pm-bulan" required></select>
-                                <small>Pembayaran otomatis masuk ke rekap bulan &amp; semester terkait</small>
-                            </div>
-                        </div>
-
-                        <div class="modal-kaki">
-                            <button type="button" class="btn-batal" data-tutup>Batal</button>
-                            <button type="submit" class="btn-simpan">Simpan Data</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- ===== Modal Catat Pengeluaran ===== -->
-            <div class="modal-latar" id="modal-pengeluaran" aria-hidden="true">
-                <div class="modal-kotak" role="dialog" aria-labelledby="judul-pengeluaran">
-                    <div class="modal-kepala">
-                        <h3 id="judul-pengeluaran">Catat Pengeluaran</h3>
-                        <button type="button" class="modal-tutup" data-tutup aria-label="Tutup">&times;</button>
-                    </div>
-
-                    <form id="form-pengeluaran">
-                        <div class="modal-isi">
-                            <div class="kolom">
-                                <label for="pg-jenis">Jenis Iuran</label>
-                                <div class="baris-input">
-                                    <select id="pg-jenis" required>
-                                        <option value="">Pilih jenis iuran…</option>
-                                        <option>Kebersihan</option>
-                                        <option>Acara Kelas</option>
-                                        <option>Perlengkapan</option>
-                                    </select>
-                                    <button type="button" class="btn-kelola"><i class="bx bx-pencil"></i>
-                                        Kelola</button>
-                                </div>
-                            </div>
-                            <!-- HAPUS -->
-                            <div class="form-group">
-                                <label>Keperluan</label>
-                                <input type="text" id="keperluan" placeholder="cth. Beli ATK Kelas">
-                            </div>
-                            <div class="dua-kolom">
-                                <div class="kolom">
-                                    <label for="pg-tanggal">Tanggal</label>
-                                    <input type="date" id="pg-tanggal" required>
-                                </div>
-                                <div class="kolom">
-                                    <label for="pg-nominal">Nominal</label>
-                                    <div class="input-awalan">
-                                        <span>Rp</span>
-                                        <input type="text" id="pg-nominal" inputmode="numeric" placeholder="0" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal-kaki">
-                            <button type="button" class="btn-batal" data-tutup>Batal</button>
-                            <button type="submit" class="btn-simpan">Simpan Data</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
 
+        <!-- Tab: Semua / Pemasukan / Pengeluaran -->
+        <div class="tab-bar" id="tab-bar">
+            <button type="button" class="tab aktif" data-tab="semua">Semua <span class="jumlah" id="jml-semua">0</span></button>
+            <button type="button" class="tab" data-tab="masuk">Pemasukan <span class="jumlah" id="jml-masuk">0</span></button>
+            <button type="button" class="tab" data-tab="keluar">Pengeluaran <span class="jumlah" id="jml-keluar">0</span></button>
+        </div>
 
-        <!-- Filter periode dan anggota -->
+        <!-- Filter pencarian (FR-05): keterangan/nama, anggota, jenis iuran/keperluan, tanggal -->
         <div class="filter">
-            <select id="filter-periode"></select>
-            <select id="filter-anggota"></select>
+            <div>
+                <label for="f-cari">Pencarian</label>
+                <input type="search" id="f-cari" placeholder="Cari keterangan, nama, atau tanggal...">
+            </div>
+            <div>
+                <label for="f-anggota">Anggota</label>
+                <select id="f-anggota"></select>
+            </div>
+            <div>
+                <label for="f-jenis">Jenis Iuran / Keperluan</label>
+                <select id="f-jenis"></select>
+            </div>
+            <div>
+                <label for="f-dari">Dari</label>
+                <input type="date" id="f-dari">
+            </div>
+            <div>
+                <label for="f-sampai">Sampai</label>
+                <input type="date" id="f-sampai">
+            </div>
+            <button type="button" class="tombol tombol-tepi" id="f-reset">Atur Ulang</button>
         </div>
 
         <!-- Tabel transaksi -->
@@ -233,21 +165,37 @@
                 <thead>
                     <tr>
                         <th>Tanggal</th>
-                        <th>Jenis</th>
+                        <th>Tipe</th>
                         <th>Nama Anggota</th>
+                        <th>Jenis Iuran / Keperluan</th>
+                        <th>Bulan Iuran</th>
                         <th>Keterangan</th>
                         <th>Nominal</th>
+                        <th class="aksi">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="isi-transaksi"></tbody>
             </table>
+
+            <!-- Pesan kosong: teksnya diisi oleh JavaScript -->
+            <p class="pesan-kosong" id="pesan-kosong" hidden></p>
+
+            <!-- Pagination -->
+            <div class="paging">
+                <p class="paging-info" id="info-paging"></p>
+                <div class="paging-btn" id="tombol-paging"></div>
+            </div>
         </div>
 
     </main>
 
+    <!-- urutan penting: data-kas.js dulu, baru modal-transaksi.js, terakhir data-transaksi.js -->
     <script src="dashboard.js"></script>
     <script src="data-kas.js"></script>
-    <script src="dashboard-isi.js"></script>
+    <script src="sesi.js"></script>
+    <script>jagaHalaman('bendahara');</script>
+    <script src="modal-transaksi.js"></script>
+    <script src="data-transaksi.js"></script>
 
 </body>
 

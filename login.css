@@ -134,3 +134,12 @@ body {
         flex-direction: column;
     }
 }
+
+/* pesan kesalahan di bawah kolom kata sandi */
+.pesan-login {
+    min-height: 20px;
+    margin: -14px 0 14px;
+    font-size: 14px;
+    text-align: center;
+    color: #FFD0D0;
+}

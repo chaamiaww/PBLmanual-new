@@ -11,22 +11,21 @@
     <div class="wrapper">
         <img src="logo-payclass.png" alt="Logo Payclass" class="logo">
         <form>
-              <h1>Login</h1>
+              <h1>Masuk</h1>
             <div class="input-box">
                 <input type="text" id="nim" placeholder="NIM">
                 <i class="bx bx-user"></i>
             </div>
             <div class="input-box">
-                <input type="password" id="password" placeholder="Password">
+                <input type="password" id="password" placeholder="Kata Sandi">
                 <i class="bx bx-show" id="mata"></i>
             </div>
+            <p class="pesan-login" id="pesan-login" role="alert"></p>
             <button type="submit" class="btn btn-masuk">Masuk</button>
-            <div class="demo-group">
-                <a href="dashboard.html" class="btn btn-demo">Masuk sebagai Bendahara</a>
-                <a href="dashboard-anggota.html" class="btn btn-demo">Masuk sebagai Anggota</a>
-             </div>
         </form>
     </div>
+    <script src="data-kas.js"></script>
+    <script src="sesi.js"></script>
     <script src="login.js"></script>
 </body>
 </html>

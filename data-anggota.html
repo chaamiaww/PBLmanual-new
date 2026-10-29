@@ -33,18 +33,25 @@
                     <li class="nav-link">
                         <a href="dashboard.html">
                             <i class="bx bx-home-alt icon"></i>
-                            <span class="text nav-text">Dashboard</span>
+                            <span class="text nav-text">Dasbor</span>
                         </a>
                     </li>
                 </ul>
 
                 <p class="menu-label">DATA UTAMA</p>
                 <ul class="menu-links">
-                    <!-- class "active" dipindah ke sini karena kita sedang di halaman Data Anggota -->
                     <li class="nav-link active">
                         <a href="data-anggota.html">
                             <i class="bx bx-group icon"></i>
                             <span class="text nav-text">Data Anggota</span>
+                        </a>
+                    </li>
+
+                    <!-- BARU: submenu Jenis Iuran (link diisi nanti kalau halamannya sudah jadi) -->
+                    <li class="nav-link">
+                        <a href="data-jenis-iuran.html">
+                            <i class="bx bx-receipt icon"></i>
+                            <span class="text nav-text">Jenis Iuran</span>
                         </a>
                     </li>
 
@@ -58,7 +65,7 @@
 
                 <ul class="menu-links menu-links-last">
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="laporan.html">
                             <i class="bx bx-bar-chart-alt-2 icon"></i>
                             <span class="text nav-text">Laporan</span>
                         </a>
@@ -69,7 +76,7 @@
             <div class="bottom-content">
                 <ul>
                     <li class="logout">
-                        <a href="#">
+                        <a href="login.html">
                             <i class="bx bx-log-out icon"></i>
                             <span class="text nav-text">Keluar</span>
                         </a>
@@ -90,7 +97,7 @@
     <header class="topbar">
         <div class="search-pill">
             <i class="bx bx-search"></i>
-            <input type="search" placeholder="Cari anggota atau transaksi...">
+            <input type="search" id="cari-atas" placeholder="Cari anggota atau transaksi...">
         </div>
         <div class="user-pill">
             <span>Charisa</span>
@@ -105,7 +112,7 @@
         <div class="page-header">
             <div class="page-title">
                 <h2>Daftar Anggota Kelas</h2>
-                <h4><span id="jumlah-anggota">1</span> mahasiswa terdaftar</h4>
+                <h4><span id="jumlah-anggota">0</span> mahasiswa terdaftar</h4>
             </div>
 
             <div class="page-actions">
@@ -134,13 +141,20 @@
                 <tbody id="isi-tabel">
                 </tbody>
             </table>
-        </div>
 
-        <p class="pesan-kosong" id="pesan-kosong" hidden>Anggota tidak ditemukan. </p>
+            <!-- Pesan kosong: teksnya diisi oleh JavaScript -->
+            <p class="pesan-kosong" id="pesan-kosong" hidden></p>
+
+            <!-- BARU: pagination -->
+            <div class="paging">
+                <p class="paging-info" id="info-paging"></p>
+                <div class="paging-btn" id="tombol-paging"></div>
+            </div>
+        </div>
 
     </main>
 
-    <!-- Modal Tambah Anggota (letaknya setelah </main>) -->
+    <!-- Modal Tambah/Ubah Anggota -->
     <div class="modal-overlay" id="modal-anggota">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="judul-modal">
 
@@ -151,18 +165,21 @@
                 </button>
             </div>
 
-            <form id="form-anggota">
+            <!-- novalidate: validasi dilakukan oleh JavaScript, pesannya tampil di bawah kolom -->
+            <form id="form-anggota" novalidate>
                 <div class="modal-body">
 
                     <div class="form-group">
                         <label for="nim">NIM (Nomor Induk Mahasiswa)</label>
                         <input type="text" id="nim" name="nim" placeholder="cth. 3312601044"
                                inputmode="numeric" maxlength="10" required>
+                        <small class="pesan-error" id="err-nim"></small>
                     </div>
 
                     <div class="form-group">
                         <label for="nama">Nama Lengkap</label>
                         <input type="text" id="nama" name="nama" placeholder="Nama sesuai KTM" required>
+                        <small class="pesan-error" id="err-nama"></small>
                     </div>
 
                     <div class="form-group">
@@ -191,7 +208,13 @@
         </div>
     </div>
 
+    <!-- BARU: notifikasi berhasil/gagal -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
     <script src="dashboard.js"></script>
+    <script src="data-kas.js"></script>
+    <script src="sesi.js"></script>
+    <script>jagaHalaman('bendahara');</script>
     <script src="data-anggota.js"></script>
 
 </body>

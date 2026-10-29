@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasbor - Payclass</title>
+    <!-- css -->
+    <link rel="stylesheet" href="dashboard.css">
+    <!-- boxicon css -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- gaya isi halaman: kartu, tabel, label -->
+    <link rel="stylesheet" href="konten.css">
+</head>
+
+<body>
+    <nav class="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="logo-payclass.png" alt="Logo PayClass">
+                </span>
+                <div class="text header-text">
+                    <span class="profession">Kas Kelas IF-1B</span>
+                </div>
+            </div>
+
+            <i class="bx bx-chevron-right toggle"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <p class="menu-label">MENU</p>
+                <ul class="menu-links">
+                    <li class="nav-link active">
+                        <a href="dashboard-anggota.html">
+                            <i class="bx bx-home-alt icon"></i>
+                            <span class="text nav-text">Dasbor</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="riwayat-iuran.html">
+                            <i class="bx bx-history icon"></i>
+                            <span class="text nav-text">Riwayat Iuran</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <ul>
+                    <li class="logout">
+                        <a href="login.html">
+                            <i class="bx bx-log-out icon"></i>
+                            <span class="text nav-text">Keluar</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="user-profile">
+                    <div class="avatar">A</div>
+                    <div class="text user-info">
+                        <span class="user-name">Anggota</span>
+                        <span class="user-role">Anggota</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- bilah atas (anggota tidak punya kolom cari, karena hanya boleh melihat data sendiri) -->
+    <header class="topbar">
+        <div class="user-pill">
+            <span>Anggota</span>
+        </div>
+    </header>
+
+    <!-- isi halaman -->
+    <main class="home">
+
+        <h1>Dasbor</h1>
+        <h4 class="sub">Ringkasan kas kelas IF-1B</h4>
+
+        <!-- Sambutan + tanda hanya lihat -->
+        <div class="sambutan">
+            <div class="sambutan-kiri">
+                <span class="avatar-besar" id="avatar-sapa">A</span>
+                <div>
+                    <small>Selamat datang kembali,</small>
+                    <b id="nama-sapa">Anggota</b>
+                </div>
+            </div>
+            <span class="lencana-lihat"><i class="bx bx-show"></i> Mode lihat saja</span>
+        </div>
+
+        <!-- Kartu ringkasan -->
+        <div class="baris">
+            <div class="kartu kartu-saldo">
+                <div>
+                    <small>Saldo kas kelas</small>
+                    <b id="saldo-kas"></b>
+                    <p class="keterangan">Diperbarui otomatis</p>
+                </div>
+                <i class="bx bx-wallet ikon-kartu"></i>
+            </div>
+
+            <div class="kartu kartu-status">
+                <div>
+                    <small id="judul-status">Status iuran saya</small>
+                    <b id="status-saya"></b>
+                    <p class="keterangan" id="ket-status"></p>
+                </div>
+                <i class="bx bx-shield-quarter ikon-kartu"></i>
+            </div>
+
+            <div class="kartu kartu-masuk">
+                <div>
+                    <small>Total iuran saya</small>
+                    <b id="total-saya"></b>
+                    <p class="keterangan" id="ket-total"></p>
+                </div>
+                <i class="bx bx-up-arrow-alt ikon-kartu"></i>
+            </div>
+
+            <div class="kartu kartu-tunggak">
+                <div>
+                    <small>Tunggakan saya</small>
+                    <b id="tunggakan-saya"></b>
+                    <p class="keterangan" id="ket-tunggakan"></p>
+                </div>
+                <i class="bx bx-error-circle ikon-kartu"></i>
+            </div>
+        </div>
+
+        <!-- Riwayat pembayaran milik sendiri (5 terbaru) -->
+        <div class="judul-bagian">
+            <div>
+                <h2>Riwayat Pembayaran Saya</h2>
+                <h4 class="sub">Lima pembayaran iuran terbaru milik Anda</h4>
+            </div>
+        </div>
+        <div class="tabel-bungkus">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tanggal Pembayaran</th>
+                        <th>Jenis Iuran</th>
+                        <th>Bulan Iuran</th>
+                        <th>Nominal</th>
+                    </tr>
+                </thead>
+                <tbody id="isi-riwayat"></tbody>
+            </table>
+        </div>
+        <p class="link-semua"><a href="riwayat-iuran.html">Lihat semua riwayat <i class="bx bx-right-arrow-alt"></i></a></p>
+
+        <!-- Pengeluaran kas kelas (keterbukaan penggunaan kas) -->
+        <div class="judul-bagian">
+            <div>
+                <h2>Pengeluaran Kas Kelas</h2>
+                <h4 class="sub" id="sub-pengeluaran"></h4>
+            </div>
+            <div class="filter filter-kecil">
+                <div>
+                    <label for="f-semester">Semester</label>
+                    <select id="f-semester"></select>
+                </div>
+            </div>
+        </div>
+        <div class="tabel-bungkus">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Keperluan</th>
+                        <th>Keterangan</th>
+                        <th>Nominal</th>
+                    </tr>
+                </thead>
+                <tbody id="isi-pengeluaran"></tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <!-- urutan penting: data-kas.js dulu, lalu sesi.js, terakhir skrip halaman -->
+    <script src="dashboard.js"></script>
+    <script src="data-kas.js"></script>
+    <script src="sesi.js"></script>
+    <script src="dashboard-anggota.js"></script>
+
+</body>
+
+</html>
